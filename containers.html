@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <title>Containers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    !-- Bootstrap JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="styles/body-styles.css">
+    
+</head>
+
+<body>
+
+    <!-- Nav Bar -->
+    <nav class="navbar fixed-top bg-dark navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="">Zoological Fooding</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="landing.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="mapBox.html">Containers Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="containers.html">Containers List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="members.html">Members</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1> -- </h1>
+
+    <div class="container">
+	
+		<h2> Containers </h2>
+	
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="containers-table" >
+
+                <tr>
+                    <th>Container id</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Longitude</th>
+                    <th>Latitude</th>
+                    <th>Address</th>
+                    <th>Weight</th>
+                    <th>Options</th>
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            // show list of containers on first load
+            showContainers();
+
+        });
+
+        // function to show list of containers
+        function showContainers() {
+
+            // get list of containers from the API
+            $.getJSON("http://restservices496.herokuapp.com/containers", function (data) {
+                var container_data = '';
+                $.each(data, function(key,value){
+                    container_data += '<tr>';
+                    container_data += '<td>' + value.containerID + '</td>' ;
+                    container_data += '<td>' + value.name + '</td>' ;
+                    container_data += '<td>' + value.type + '</td>' ;
+                    container_data += '<td>' + value.longitude + '</td>' ;
+                    container_data += '<td>' + value.latitude + '</td>' ;
+                    container_data += '<td>' + value.address + '</td>' ;
+                    container_data += '<td>' + value.weight + '</td>' ;
+                    container_data += '<td>' + '<button type="button" class="btn btn-secondary">Details</button>' + '</td>';
+                    container_data += '</tr>';
+                });
+                $('#containers-table').append(container_data);
+            });
+
+        }
+
+
+        // get id when edit button clicked
+        $('#containers-table').on('click', '.btn',function(){
+            var currow = $(this).closest('tr');
+            var col0  = currow.find('td:eq(0)').text();
+            localStorage.setItem("conID",col0);
+            window.location.replace("containerDetails.html");
+        })
+
+
+
+    </script>
+    
+
+
+
+</body>
+
+</html>

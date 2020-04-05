@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <script>
+
+        var formData = {"name":"sprint2Demo","type":"dog","longitude":32.814513,"latitude":39.920907,"address":"emek","weight":42.7,"fillsList":[]};
+        formData = JSON.stringify(formData);
+        
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "http://restservices496.herokuapp.com/addContainer",
+                data: formData,
+                success: function () { window.alert("Registration Successful!"); },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        });
+
+
+
+
+
+    </script>
+</body>
+
+</html>
