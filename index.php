@@ -1,1 +1,4 @@
-<?php header( 'Location: /landing.html' ) ; ?>
+<?php 
+header("Access-Control-Allow-Origin: *"); 
+header( 'Location: /landing.html' ) ; 
+?>

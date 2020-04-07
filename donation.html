@@ -152,14 +152,14 @@
         function postDonation() {
 
             var formData = JSON.stringify($('form').serializeObject());
-            
+
             var jsonOBJ = JSON.parse(formData);
 
             var containerID = localStorage.getItem("conID");
             jsonOBJ["containerId"] = containerID;
 
             formData = JSON.stringify(jsonOBJ);
-
+          
             $.ajax({
                 type: "POST",
                 url: "http://restservices496.herokuapp.com/addDonation",
@@ -168,6 +168,7 @@
                 dataType: "json",
                 contentType: "application/json"
             });
+            
 
         }
 
