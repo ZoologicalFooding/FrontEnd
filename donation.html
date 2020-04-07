@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="cc-name">Name on card</label>
+                        <label for="cc-name">Full Name</label>
                         <input type="text" class="form-control" id="cc-name" name="fullName" placeholder="" required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="cc-number">Credit card number</label>
+                        <label for="cc-number">Credit Card Number</label>
                         <input type="text" class="form-control" id="cc-number" name="creditCardNumber" placeholder=""
                             required>
                         <div class="invalid-feedback">
@@ -106,7 +106,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <label for="cc-expiration">Expiration</label>
+                        <label for="cc-expiration">Expiration Date</label>
                         <input type="text" class="form-control" id="cc-expiration" name="expiration_date" placeholder=""
                             required>
                         <div class="invalid-feedback">
@@ -152,13 +152,19 @@
         function postDonation() {
 
             var formData = JSON.stringify($('form').serializeObject());
-            window.alert(formData);
+            
+            var jsonOBJ = JSON.parse(formData);
+
+            var containerID = localStorage.getItem("conID");
+            jsonOBJ["containerId"] = containerID;
+
+            formData = JSON.stringify(jsonOBJ);
 
             $.ajax({
                 type: "POST",
-                url: "https://restservices496.herokuapp.com/addDonate",
+                url: "http://restservices496.herokuapp.com/addDonation",
                 data: formData,
-                success: function () { window.alert("Registration Successful!"); },
+                success: function () { window.alert("Donation Successful!"); },
                 dataType: "json",
                 contentType: "application/json"
             });

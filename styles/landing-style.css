@@ -79,7 +79,11 @@ body {
   #developers {
     padding: 100px;
   }
+
+  .developer-h3{
+    margin-bottom: 7%;
+  }
   
-  .card-row{
-      padding: 2rem;
+  .card{
+    margin-bottom: 7%;
   }

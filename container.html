@@ -65,7 +65,7 @@
 
 </head>
 
-<body>
+<body class="bg-light">
 
     <!-- Nav Bar -->
     <nav class="navbar fixed-top bg-dark navbar-expand-lg navbar-dark">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 
-                <button type="button" class="btn btn-secondary">Donate!</button>
+                <button type="button" class="btn btn-secondary" onclick="donate()">Donate!</button>
             </div>
 
             <div class="col-lg-12" style="margin-top: 1rem;">
@@ -184,6 +184,10 @@
 
 
         });
+
+        function donate(){
+            window.open("donation.html", "_self")
+        }
 
     </script>
 
