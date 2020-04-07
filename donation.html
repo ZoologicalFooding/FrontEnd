@@ -161,8 +161,10 @@
             formData = JSON.stringify(jsonOBJ);
           
             $.ajax({
+                headers: { "Accept": "application/json"},
                 type: "POST",
-                url: "http://restservices496.herokuapp.com/addDonation",
+                url: "http://restservices496.herokuapp.com/addDonate",
+                crossDomain: true,
                 data: formData,
                 success: function () { window.alert("Donation Successful!"); },
                 dataType: "json",
