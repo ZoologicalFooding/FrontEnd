@@ -36,6 +36,21 @@
         #donation {
             margin-top: 75px;
         }
+
+        input[type=checkbox] {
+            width: 3%;
+            height: 3%;
+
+        }
+
+        .payment {
+            margin-top: 5%;
+        }
+        
+        .btn{
+            margin-bottom: 10%;
+        }
+
     </style>
 
 
@@ -76,18 +91,59 @@
             <form>
                 <div class="row">
 
-                    <div class="col-md-12 mb-3">
-                        <label for="cc-name">Food Name</label>
-                        <input type="text" class="form-control" id="foodName" name="donateFoodName" placeholder=""
-                            required>
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="images/k1.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Proplan</h5>
+                                <p class="card-text">ProPlan Original Kitten Dry Cat Food 400Gr</p>
+                                <p class="card-text text-right">12$</p>
+                                <input type="checkbox" style="width: 100%;" class="form-check-input" id="check1">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-12 mb-3">
-                        <label for="cc-name">Food Type</label>
-                        <input type="text" class="form-control" id="foodType" name="foodType" placeholder="" required>
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="images/k2.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Proplan</h5>
+                                <p class="card-text">ProPlan Salmon Dry Cat Food 1.5 Kg</p>
+                                <p class="card-text text-right">20$</p>
+                                <input type="checkbox" style="width: 100%;" class="form-check-input" id="check2">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="images/k3.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Meow Mix</h5>
+                                <p class="card-text">Meow Mix Original Choice Dry Cat Food 2.8 Kg</p>
+                                <p class="card-text text-right">24$</p>
+                                <input type="checkbox" style="width: 100%;" class="form-check-input" id="check3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src="images/k4.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Purina </h5>
+                                <p class="card-text">Cat Chow Indoor Dry Cat Food 5Kg</p>
+                                <p class="card-text text-right">35$</p>
+                                <input type="checkbox" style="width: 100%;" class="form-check-input" id="check4">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3 payment">
                         <label for="cc-name">Full Name</label>
                         <input type="text" class="form-control" id="cc-name" name="fullName" placeholder="" required>
                         <small class="text-muted">Full name as displayed on card</small>
@@ -95,34 +151,47 @@
                             Name on card is required
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+
+                    <div class="col-md-6 mb-3 payment">
                         <label for="cc-number">Credit Card Number</label>
-                        <input type="text" class="form-control" id="cc-number" name="creditCardNumber" placeholder=""
+                        <input type="text" class="form-control" id="cc-number" name="creditCardNumberStr" placeholder=""
                             required>
                         <div class="invalid-feedback">
                             Credit card number is required
                         </div>
                     </div>
-                </div>
-                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">E-Mail</label>
+                        <input type="text" class="form-control" id="cc-mail" name="donaterMail" placeholder="">
+                    </div>
+
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">Expiration Date</label>
-                        <input type="text" class="form-control" id="cc-expiration" name="expiration_date" placeholder=""
-                            required>
+                        <input type="text" class="form-control" id="cc-expiration" name="expiration_dateStr"
+                            placeholder="" required>
                         <div class="invalid-feedback">
                             Expiration date required
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration">CVV</label>
-                        <input type="text" class="form-control" id="cc-cvv" name="cvvNumber" placeholder="" required>
+                        <input type="text" class="form-control" id="cc-cvv" name="cvvNumberStr" placeholder="" required>
                         <div class="invalid-feedback">
                             Security code required
                         </div>
                     </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Promotion Code</label>
+                        <input type="text" class="form-control" id="cc-cvv" name="discountCode" placeholder="">
+                        <small class="text-muted">Enter your promotion code</small>
+                    </div>
+
+
                 </div>
 
-                <button type="button" onclick="postDonation()" class="btn btn-secondary">Donate!</button>
+                <button type="button" onclick="postDonation()" class="btn btn-secondary float-right">Donate!</button>
             </form>
 
         </div>
@@ -155,22 +224,62 @@
 
             var jsonOBJ = JSON.parse(formData);
 
+            var amount = 0;
+            var foodName = "";
+
+            if (document.getElementById("check1").checked) {
+                amount = amount + 12;
+                foodName = foodName + " ProPlan Kitten"
+            }
+
+            if (document.getElementById("check2").checked) {
+                amount = amount + 20;
+                foodName = foodName + " ProPlan Salmon"
+            }
+
+            if (document.getElementById("check3").checked) {
+                amount = amount + 24;
+                foodName = foodName + " Meow Mix";
+            }
+
+            if (document.getElementById("check4").checked) {
+                amount = amount + 35;
+                foodName = foodName + " Purina";
+            }
+
+            if(jsonOBJ["discountCode"].length == 0){
+                jsonOBJ["discountCode"] = "0";
+            }
+
+            amount = amount + "";
+            jsonOBJ["amountStr"] = amount;
+            jsonOBJ["donateFoodName"] = foodName;
+
             var containerID = localStorage.getItem("conID");
             jsonOBJ["containerId"] = containerID;
 
             formData = JSON.stringify(jsonOBJ);
-          
+
             $.ajax({
-                headers: { "Accept": "application/json"},
+                headers: {
+                    "Accept": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                },
                 type: "POST",
                 url: "http://restservices496.herokuapp.com/addDonate",
+                xhrFields: {
+                    withCredentials: true
+                },
                 crossDomain: true,
                 data: formData,
-                success: function () { window.alert("Donation Successful!"); },
+                success: function (msg) { 
+                    window.alert(msg + "$ Donation Successful!");
+                    window.open("container.html", "_self")
+                },
                 dataType: "json",
                 contentType: "application/json"
             });
-            
+
 
         }
 
