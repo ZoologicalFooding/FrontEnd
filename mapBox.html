@@ -145,8 +145,8 @@
                             .setLngLat(coordinates)
                             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
                                 .setHTML(`<h4> ${value.name} </h4>
-                                         <p> Type: ${value.type} </p>
-                                         <p> Weight: ${value.weight} </p>
+                                         <p> Dog Container </p>
+                                         <p> Weight: ${value.weight} gr </p>
                                          <button type="button" class="btn btn-secondary btn-sm" onclick="setConId(${value.containerID})">Details</button>
                                         `))
                             .addTo(map);
@@ -158,8 +158,8 @@
                             .setLngLat(coordinates)
                             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
                                 .setHTML(`<h4> ${value.name} </h4>
-                                         <p> Type: ${value.type} </p>
-                                         <p> Weight: ${value.weight} </p>
+                                         <p> Cat Container </p>
+                                         <p> Weight: ${value.weight} gr </p>
                                          <button type="button" class="btn btn-secondary btn-sm" onclick="setConId(${value.containerID})">Details</button>
                                         `))
                             .addTo(map);
