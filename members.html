@@ -61,10 +61,13 @@
                     <a class="nav-link" href="mapBox.html">Containers Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="containers.html">Containers List</a>
+                    <a class="nav-link" href="volunteer.html">Be A Volunteer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="members.html">Members</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact-us.html">Contact Us</a>
                 </li>
             </ul>
         </div>
@@ -114,7 +117,7 @@
                 });
 
                 $.each(data, function (key, value) {
-                    if (value.pointStr != null) {
+                    if ((value.pointStr != null) && (value.first_name != null)) {
                         member_data += '<tr>';
                         member_data += '<td>' + value.first_name + '</td>';
                         member_data += '<td>' + value.last_name + '</td>';

@@ -49,27 +49,66 @@
             padding-bottom: 1.5rem;
         }
 
-        #container-history{
+        #container-history {
             margin-top: 3rem;
         }
 
-        h2{
+        h2 {
             text-align: center;
             margin-bottom: 1rem;
         }
 
-        .progress{
+        .progress {
             margin-bottom: 1rem;
             height: 25px;
         }
 
+        .comment-header {
+            margin-top: 2rem;
+            margin-right: 45%;
+        }
+
+        #comments {
+            border: solid 1px;
+            width: 90%;
+            height: 300px;
+            margin-top: 1rem;
+            overflow: scroll;
+        }
+
+        #container-history-table {
+            margin-bottom: 5%;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 
 </head>
 
 <body class="bg-light">
 
-    <!-- Nav Bar -->
     <nav class="navbar fixed-top bg-dark navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="">Zoological Fooding</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -85,10 +124,13 @@
                     <a class="nav-link" href="mapBox.html">Containers Map</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="containers.html">Containers List</a>
+                    <a class="nav-link" href="volunteer.html">Be A Volunteer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="members.html">Members</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact-us.html">Contact Us</a>
                 </li>
             </ul>
         </div>
@@ -107,29 +149,34 @@
 
                 <img class="container-image" src="images/kugulu.jpg">
 
-            </div>
-
-            <div class="col-lg-6">
-                <p class="current-weight"> Current Weight: </p>
-                
-                <p class="percentage"> Full Percentage: </p>
-                <div class="progress" style="width: 75%;">
-                    <div class="progress-bar bg-secondary" style="width: 100%">
-                        100%
-                    </div>
-                </div>  
-                <button type="button" class="btn btn-secondary" onclick="donate()">Donate!</button>
-
-                <p>asdasd</p>
-            </div>
-
-           
-
-            <div class="col-lg-12" style="margin-top: 1rem;">
                 <p class="address">Address: </p>
                 <button type="button" class="btn btn-secondary">Get Directions!</button>
             </div>
 
+            <div class="col-lg-6">
+
+                <p class="status"> Status: </p>
+
+                <p class="current-weight"> Current Weight: </p>
+
+                <p class="percentage"> Percentage: </p>
+                <div class="progress" style="width: 75%;">
+                    <div class="progress-bar bg-secondary" style="width: 100%">
+                        100%
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="donate()">Donate!</button>
+                <h1></h1>
+                <h3 class="comment-header" style="display: inline">Comments</h3>
+                <button type="button" id="myBtn" class="btn btn-secondary">Add Comment</button>
+                <section id="comments">
+
+                    <div class="cards">
+                    </div>
+
+                </section>
+
+            </div>
 
         </div>
 
@@ -147,12 +194,43 @@
                         <th>Food Type</th>
                         <th>Amount</th>
                         <th>Donate Time</th>
+                        <th>Likes</th>
                     </tr>
                 </table>
             </div>
         </div>
     </section>
 
+
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+
+            <form>
+
+                <div class="form-group row">
+                    <label for="first_name" class="col-sm-3 col-form-label">Comment</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" rows="3" class="form-control" id="yorum" name="yorum"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="first_name" class="col-sm-3 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="yorumName" name="yorumName">
+                    </div>
+                </div>
+
+            </form>
+
+            <button type="button" onclick="sendComment()" class="btn btn-secondary">Send!</button>
+
+        </div>
+
+    </div>
 
 
     <script>
@@ -166,10 +244,29 @@
         $.getJSON(url, function (data) {
 
             $('.h1-title').append(data.name);
+
+            var statusCode = "";
+
+            if (data.status == "0") {
+                statusCode = "Working Fine";
+            }
+            else if (data.status == "1") {
+                statusCode = "Setup Needed";
+            }
+            else if (data.status == "2") {
+                statusCode = "Hardware Problem";
+            }
+            else {
+                statusCode = "No-Info";
+            }
+
+            $('.status').append(statusCode);
+
+
             $('.current-weight').append(data.weight + ' gr');
 
-            var percent = data.weight / 10 + '%';
-            $('.progress-bar').css('width',percent);
+            var percent = data.weight / 30 + '%';
+            $('.progress-bar').css('width', percent);
             $('.progress-bar').text(percent);
 
             $('.address').append(data.address);
@@ -182,16 +279,119 @@
                 donateHistory += '<td>' + value.donateFoodName + '</td>';
                 donateHistory += '<td>' + value.amountStr + '$</td>';
                 donateHistory += '<td>' + value.donateTime + '</td>';
+                if (value.likedStr != null) {
+                    donateHistory += '<td>' + value.likedStr + '</td>';
+                }
+                else
+                    donateHistory += '<td>' + '0' + '</td>';
+
+                donateHistory += `<td><button class="btn" onclick="like(${value.donatesID})"><img src="https://img.icons8.com/ios-glyphs/30/000000/facebook-like.png"/></button></td>`;
                 donateHistory += '</tr>';
             });
 
             $('#container-history-table').append(donateHistory);
 
+            var commentsList = data.commentsList;
+
+            $.each(commentsList, function (key, value) {
+
+                $('.cards').append(
+                    `
+                        <div class="text-right ">
+                            ${value.yorumName}
+                        </div>
+                        <div class="">
+                            ${value.yorum}
+                        </div>
+                    <hr>
+                    `
+                );
+
+            });
 
         });
 
-        function donate(){
+        function like(x){
+            
+            var link = "http://restservices496.herokuapp.com/likeDonate/" + x;
+
+            $.ajax({
+                type: "POST",
+                url: link,
+                data: "",
+                success: function () {
+                    location.reload();
+                },
+            });
+        }
+
+        function donate() {
             window.open("donation.html", "_self")
+        }
+
+        function sendComment() {
+            var formData;
+            $.fn.serializeObject = function () {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+
+            var formData = JSON.stringify($('form').serializeObject());
+
+            var jsonOBJ = JSON.parse(formData);
+            jsonOBJ["containerId"] = localStorage.getItem("conID");;
+
+            formData = JSON.stringify(jsonOBJ);
+
+            $.ajax({
+                type: "POST",
+                url: "http://restservices496.herokuapp.com/addComment",
+                data: formData,
+                success: function () {
+                    modal.style.display = "none";
+                    location.reload();
+                },
+                dataType: "json",
+                contentType: "application/json"
+            });
+
+        }
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
     </script>
