@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill The Container!</title>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Ubuntu" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="styles/body-styles.css">
+
+    <!-- Bootstrap JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+        #enter {
+            margin-top: 75px;
+        }
+
+        .images {
+            margin-top: 5%;
+            margin-bottom: 5%;
+            text-align: center;
+        }
+
+        h3 {
+            margin-top: 10%;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .btn {
+            margin-top: 5%;
+            float: right;
+        }
+    </style>
+
+
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar fixed-top bg-dark navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="landing.html">Zoological Fooding</a>
+    </nav>
+
+    <section id="enter">
+
+        <div class="container">
+
+            <h3>We Are Greatful For Your Help!</h3>
+
+            <div class="images">
+                <img src="https://img.icons8.com/pastel-glyph/64/000000/cat--v3.png" />
+                <img src="https://img.icons8.com/dotty/80/000000/dog.png" />
+            </div>
+
+            <form>
+                <div class="row">
+
+                    <div class="col-md-12 mb-3">
+                        <label for="cc-number">Enter Your Volunteer ID To Get Points!</label>
+                        <input type="text" class="form-control" id="volunteerID" name="volunteerID" placeholder="">
+
+                        <button type="button" onclick="sendID()" class="btn btn-secondary">Send!</button>
+                    </div>
+                </div>
+            </form>
+
+    </section>
+
+
+    <script>
+
+        function sendID() {
+            
+            var id = $("#volunteerID").val();
+
+            var link = "http://restservices496.herokuapp.com/editPoint/" + id;
+
+            $.ajax({
+                type: "PUT",
+                url: link,
+                data: "",
+                async: false,
+                success: function (response) {
+
+                    var jsonString = JSON.stringify(response);
+
+                    window.alert("Thank You For Your Help " + response.first_name + "\nAlso You Received 50 Points!");
+                },
+            });
+
+        }
+    </script>
+
+
+
+</body>
+
+</html>

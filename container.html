@@ -147,7 +147,7 @@
 
             <div class="col-lg-6">
 
-                <img class="container-image" src="images/kugulu.jpg">
+                <img id="container_images" class="container-image" src="images/kugulu.jpg">
 
                 <p class="address">Address: </p>
                 <button type="button" class="btn btn-secondary">Get Directions!</button>
@@ -158,7 +158,7 @@
                 <p class="status"> Status: </p>
 
                 <p class="current-weight"> Current Weight: </p>
-
+                <p class="estimatedTime"> Estimated Ending Time: </p>
                 <p class="percentage"> Percentage: </p>
                 <div class="progress" style="width: 75%;">
                     <div class="progress-bar bg-secondary" style="width: 100%">
@@ -241,7 +241,27 @@
 
         var donateHistory;
 
+        var containerType;      
+
+        if(id == "0"){
+            document.getElementById("container_images").src = "images/ordekli-park.jpg";
+        }
+        
+        if(id == "2714"){
+            document.getElementById("container_images").src = "images/dikmen-vadisi.jpg";
+        }
+
+        if(id == "2717"){
+            document.getElementById("container_images").src = "images/tobb-etu.jpg";
+        }
+
+        if(id == "2715"){
+            document.getElementById("container_images").src = "images/orman-ciftligi.jpg";
+        }
+
         $.getJSON(url, function (data) {
+
+            containerType = data.type;
 
             $('.h1-title').append(data.name);
 
@@ -262,6 +282,12 @@
 
             $('.status').append(statusCode);
 
+            var estimated = data.estimation;
+            estimated = estimated.split(" ");
+            
+            var stringEst = estimated[0] + 'days ' + estimated[1] + 'hours ' + estimated[2] + 'minutes';
+
+            $('.estimatedTime').append(stringEst);
 
             $('.current-weight').append(data.weight + ' gr');
 
@@ -311,8 +337,8 @@
 
         });
 
-        function like(x){
-            
+        function like(x) {
+
             var link = "http://restservices496.herokuapp.com/likeDonate/" + x;
 
             $.ajax({
@@ -326,7 +352,14 @@
         }
 
         function donate() {
-            window.open("donation.html", "_self")
+
+            if (containerType == "cat") {
+                window.open("donationCat.html", "_self");
+            }
+            else {
+                window.open("donationDog.html", "_self");
+            }
+
         }
 
         function sendComment() {
