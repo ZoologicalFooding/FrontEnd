@@ -150,7 +150,7 @@
                 <img id="container_images" class="container-image" src="images/kugulu.jpg">
 
                 <p class="address">Address: </p>
-                <button type="button" class="btn btn-secondary">Get Directions!</button>
+                <button type="button" class="btn btn-secondary" onclick="getDirected()">Get Directions!</button>
             </div>
 
             <div class="col-lg-6">
@@ -235,31 +235,38 @@
 
     <script>
 
+        function getDirected() {
+            window.open("route.html", "_self");
+        }
+
         var id = localStorage.getItem("conID");
 
         var url = "http://restservices496.herokuapp.com/container/" + id;
 
         var donateHistory;
 
-        var containerType;      
+        var containerType;
 
-        if(id == "0"){
+        if (id == "0") {
             document.getElementById("container_images").src = "images/ordekli-park.jpg";
         }
-        
-        if(id == "2714"){
+
+        if (id == "2714") {
             document.getElementById("container_images").src = "images/dikmen-vadisi.jpg";
         }
 
-        if(id == "2717"){
+        if (id == "2717") {
             document.getElementById("container_images").src = "images/tobb-etu.jpg";
         }
 
-        if(id == "2715"){
+        if (id == "2715") {
             document.getElementById("container_images").src = "images/orman-ciftligi.jpg";
         }
 
         $.getJSON(url, function (data) {
+
+            localStorage.setItem("destLong", data.longitude);
+            localStorage.setItem("destLat", data.latitude);
 
             containerType = data.type;
 
@@ -283,11 +290,18 @@
             $('.status').append(statusCode);
 
             var estimated = data.estimation;
-            estimated = estimated.split(" ");
-            
-            var stringEst = estimated[0] + 'days ' + estimated[1] + 'hours ' + estimated[2] + 'minutes';
+            if (estimated == null) {
+                $('.estimatedTime').append("No Data For Estimated Time");
+            }
+            else {
+                    
+                estimated = estimated.split(" ");
 
-            $('.estimatedTime').append(stringEst);
+                var stringEst = estimated[0] + 'days ' + estimated[1] + 'hours ' + estimated[2] + 'minutes';
+
+                $('.estimatedTime').append(stringEst);
+
+            }
 
             $('.current-weight').append(data.weight + ' gr');
 
