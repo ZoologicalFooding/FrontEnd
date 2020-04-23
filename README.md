@@ -6,6 +6,7 @@
   
   
 ## http://zoological-fooding.herokuapp.com/
+Works Best at Microsoft Edge !
 
 ## Flow Chart
 
